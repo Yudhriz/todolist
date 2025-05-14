@@ -7,6 +7,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 // Register user
+// Register user
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
   if (!username || !email || !password)
@@ -33,7 +34,25 @@ router.post("/register", async (req, res) => {
           [username, email, hashedPassword],
           (err, result) => {
             if (err) return res.status(500).json({ message: err.message });
-            res.status(201).json({ message: "User registered successfully" });
+
+            const newUser = {
+              id: result.insertId,
+              username,
+              email,
+            };
+
+            // Buat JWT token
+            const token = jwt.sign(
+              { id: newUser.id, username: newUser.username },
+              process.env.JWT_SECRET,
+              { expiresIn: process.env.JWT_EXPIRES_IN }
+            );
+
+            res.status(201).json({
+              message: "User registered successfully",
+              token,
+              user: newUser,
+            });
           }
         );
       }
