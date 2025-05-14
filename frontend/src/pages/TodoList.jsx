@@ -7,13 +7,14 @@ export default function TodoList({ token }) {
   const [error, setError] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [editingTask, setEditingTask] = useState("");
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   // Fetch todos dari backend
   const fetchTodos = async () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("http://localhost:4000/api/todos", {
+      const res = await fetch(`${apiUrl}/todos`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -39,7 +40,7 @@ export default function TodoList({ token }) {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("http://localhost:4000/api/todos", {
+      const res = await fetch(`${apiUrl}/todos`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +67,7 @@ export default function TodoList({ token }) {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`http://localhost:4000/api/todos/${id}`, {
+      const res = await fetch(`${apiUrl}/todos/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -98,7 +99,7 @@ export default function TodoList({ token }) {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`http://localhost:4000/api/todos/${id}`, {
+      const res = await fetch(`${apiUrl}/todos/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

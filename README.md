@@ -64,7 +64,8 @@ npm install
 - Buat file .env di folder backend dengan isi variabel environment, contoh:
 ```
 DB_HOST=localhost
-DB_USER=root
+DB_PORT=3306
+DB_USER=your_mysql_user
 DB_PASSWORD=your_mysql_password
 DB_NAME=todo_app
 JWT_SECRET=49a3c8e95018d4c7934d30f20ce1dee7f097adb03aa3f8929f026bfc1f140f18

@@ -6,6 +6,7 @@ export default function Register({ onRegister }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,9 +15,20 @@ export default function Register({ onRegister }) {
       setError("Semua field wajib diisi");
       return;
     }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Format email tidak valid");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password minimal 6 karakter");
+      return;
+    }
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:4000/api/auth/register", {
+      const res = await fetch(`${apiUrl}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password }),
